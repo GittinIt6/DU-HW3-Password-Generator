@@ -1,4 +1,3 @@
-// Assignment Code
 var generateBtn = document.querySelector("#generate");
 var userPassword = "";
 var passwordLength = 8;
@@ -14,21 +13,24 @@ const passwordNumbers = ["0","1","2","3","4","5","6","7","8","9"];
 
 // Call other functions, then write password to the #password id in html
 function writePassword() {
+  var passwordText = document.querySelector("#password");
 
-  //Get password length
-  passwordLength = passwordLengthForm();
-    if (passwordLength === false){
-      return;
-    }
-  //Set password complexity options
+  //Call password length function which will set password length variable
+  
+  if (passwordLengthForm() === false){
+    passwordText.value = "";
+    return;
+  }
+  
+  //Call password complexity function which sets complexity variables
   if (passwordComplexity() === false){
-      return;
-    }
-  //Generate password based on user input
+    passwordText.value = "";
+    return;
+  }
+  //Call Generate password function to set password value based on user selections
   var password = generatePassword();
   
   //Write text in html for id to password
-  var passwordText = document.querySelector("#password");
   passwordText.value = password;
 
 }
@@ -36,17 +38,16 @@ function writePassword() {
 //Prompt user to input password length --> Return password length as number
 function passwordLengthForm() {
   let tryCount = 2; //variable to display number of tries left to the user
-
+  
   //ask user for input for password length
   for (let index = 0; index < 3; index++) {
     passwordLength = prompt ("How long would you like your password?\n**Requirement: Minimum 8 - Maximum 128 Characters", 8);
-      if (passwordLength == null){
+ 
+    if (passwordLength == null){
       return false; //end process if cancel button is pressed
     }
 
     passwordLength = Number(passwordLength); //converting string output of prompt to number
-    // console.log(`password type: ${typeof passwordLength}`);
-    // console.log(`password length: ${passwordLength}`);
 
     //checking if all parameters are met
     if ((passwordLength >= 8  && passwordLength <=128 &&  typeof passwordLength == "number")){
@@ -64,7 +65,6 @@ function passwordLengthForm() {
       }
     }
   }
-  return passwordLength;
 }
 
 //prompt user to select various complexity options --> Sets boolean variables for future use, Returns nothing
@@ -100,9 +100,7 @@ function passwordComplexity() {
 function generatePassword() {
   var passwordItems = [];
   userPassword = ""; //resetting userPassword
-  
-  // const passwordItems = specChars.concat(alphabetLower,alphabetUpper,passwordNumbers);
-  
+    
   //creating single array of selected characters based on selections
   if (passwordLowerCase){
     passwordItems = passwordItems.concat(alphabetLower);
